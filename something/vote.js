@@ -6,7 +6,7 @@ const errors = {
 }
 
 class Vote {
-  constructor (manager, raw, message) {
+  constructor (manager, raw, message, flag) {
     this.id = raw.id
     this.guild = raw.guild
     this.channel = raw.channel
@@ -15,18 +15,25 @@ class Vote {
     this.content = raw.content
     this.data = raw.data
     this.items = raw.items
-    this.expires = raw.expires
+    this.expires = parseInt(raw.expires)
     this.isPrivate = raw.isPrivate
+    this.autoResult = raw.autoResult
     this.allowCancel = raw.allowCancel
     this.isClosed = raw.isClosed
     this.isAdminOnly = raw.isAdminOnly
     this.allowDuplicates = raw.allowDuplicates
     this.manager = manager
     this.realMessage = message
+    this.flag = flag
   }
 
-  update () {
-    return this.manager.update(this)
+  get expired () {
+    return this.expires !== -1 && (new Date() >= this.expires)
+  }
+
+  update (toPublic) {
+    const _ = toPublic !== undefined ? toPublic : !this.isPrivate
+    return this.manager.update(this, this.closed ? this.autoResult : _)
   }
 }
 
@@ -37,25 +44,43 @@ class VoteManager {
     this.errors = errors
   }
 
+  _ (vote, guild, validateMessage) {
+    let flag
+    if (!vote || (guild && (vote.guild !== guild))) return { flag: errors.notExist }
+    else if (vote.message === '') flag = errors.noMessage
+    else if (vote.isClosed) flag = errors.closed
+
+    return this.client.getMessage(vote.channel, vote.message).then(message => {
+      if (!message) {
+        if (validateMessage) this.db('votes').where({ id: vote.id }).update({ isClosed: true, message: '' }).then()
+        flag = errors.noMessage
+      } else return new Vote(this, vote, message, flag)
+    })
+  }
+
   get (id, guild, validateMessage) {
     const index = Number(id)
     if (isNaN(index)) return { flag: errors.int }
     return this.db('votes').where({ id: index }).then(result => {
-      const vote = result[0]
-      if (!vote || (vote.guild !== guild)) return { flag: errors.notExist }
-      else if (vote.isClosed) return { flag: closed }
-
-      return this.client.getMessage(vote.channel, vote.message).then(message => {
-        if (validateMessage && !message) return { flag: noMessage }
-        console.log(this)
-        return new Vote(this, vote, message)
-      })
+      return this._(result[0], guild, validateMessage)
     })
   }
 
-  update (vote) {
-    const content = vote.items.map(item => `${item.emoji} ${item.content}`)
-    const description = `${vote.content ? `${vote.content}\n` : ''}${content.join('\n')}`
+  getFromMessage (messageID, validateMessage) {
+    return this.db('votes').where({ message: messageID }).then(result => {
+      return this._(result[0], null, validateMessage)
+    })
+  }
+
+  update (vote, toPublic) {
+    const content = vote.items.map(item => {
+      const result = `[${vote.data[item.emoji] ? vote.data[item.emoji].length : 0}]`
+      return `${item.emoji} ${item.content}${toPublic ? ` ${result}`: ''}`
+    })
+    const date = new Date(vote.expires).toISOString().replace('T', ' ').replace(/\..+/, '')
+    const status = `이 투표는 ${vote.isClosed ? `${date}에 마감되었습니다.` : (vote.expires !== -1 ? `${date}에 마감됩니다.` : '마감되지 않습니다.')}`
+    const description = `${vote.content ? `${vote.content}\n` : ''}${content.join('\n')}\n**${status}**`
+    if (vote.isClosed && Object.keys(vote.realMessage.reactions)) vote.realMessage.removeReactions()
     return vote.realMessage.edit({ embed: { title: vote.title, description } })
   }
 }

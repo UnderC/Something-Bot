@@ -1,7 +1,8 @@
 module.exports = async (client, message, emoji, user) => {
   if (client.user.id === user) return
-  const vote = (await client.db('votes').where({ message: message.id }))[0]
-  if (!vote || (vote.guild !== message.channel.guild.id) || vote.isClosed) return
+  const vote = await client.vote.getFromMessage(message.id)
+  console.log(vote)
+  if (!vote || vote.flag || (vote.guild !== message.channel.guild.id) || vote.isClosed) return
   const dm = await client.getDMChannel(user)
   const emojiID = `<${emoji.animated ? 'a:': ':'}${emoji.name}${emoji.id ? `:${emoji.id}`: ''}>`
 
@@ -26,7 +27,7 @@ module.exports = async (client, message, emoji, user) => {
     }
   }
 
-  const realMsg = await client.getMessage(message.channel.id, message.id)
-  realMsg.removeReaction(emojiID.includes(':') ? emojiID.replace('<a:', '').replace('<:', '').replace('>', '') : emojiID, user)
+  vote.realMessage.removeReaction(emojiID.includes(':') ? emojiID.replace('<a:', '').replace('<:', '').replace('>', '') : emojiID, user)
+  vote.update()
   await client.db('votes').where({ id: vote.id }).update({ data: JSON.stringify(vote.data) })
 }

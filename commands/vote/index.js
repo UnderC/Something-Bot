@@ -3,6 +3,8 @@ module.exports = {
   commands: {
     addItem: require('./add'),
     createVote: require('./create'),
+    setExpires: require('./setExpires'),
+    setting: require('./setting')
   }, override: {
     checkManager: true
   }
