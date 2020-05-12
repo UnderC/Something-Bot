@@ -22,7 +22,7 @@ class VoteExpires extends Model {
     else if (vote.flag === this.client.vote.errors.notExist) return message.channel.createMessage('존재하지 않는 투표입니다.')
     else if (vote.flag === this.client.vote.errors.closed) return message.channel.createMessage('이미 종료된 투표입니다.')
 
-    const orignal = message.args.slice(2, 4)
+    const orignal = message.args.slice(2, 4).join(' ')
     const expires = inf ? -1 : new Date(orignal).getTime()
     if (isNaN(expires)) return message.channel.createMessage('마감일은 `yyyy-mm-dd hh:mm:ss` 과 같은 형식으로 입력해 주세요.')
 

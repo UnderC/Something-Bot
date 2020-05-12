@@ -33,7 +33,13 @@ class Vote {
 
   update (toPublic) {
     const _ = toPublic !== undefined ? toPublic : !this.isPrivate
-    return this.manager.update(this, this.closed ? this.autoResult : _)
+    return this.manager.update(this, this.isClosed ? this.autoResult : _)
+  }
+
+  close () {
+    this.isClosed = true
+    this.update()
+    return this.manager.db('votes').where({ id: this.id }).update({ isClosed: true })
   }
 }
 
@@ -70,6 +76,13 @@ class VoteManager {
     return this.db('votes').where({ message: messageID }).then(result => {
       return this._(result[0], null, validateMessage)
     })
+  }
+
+  getExpires () {
+    return this.db('votes')
+      .where({ isClosed: false, autoResult: true })
+      .andWhere(this.db.raw('expires != -1'))
+      .andWhere(this.db.raw('expires <= ?', [Date.now()]))
   }
 
   update (vote, toPublic) {
