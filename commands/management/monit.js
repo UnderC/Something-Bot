@@ -14,7 +14,8 @@ const trace = (target, message, event, index, a) => {
 class EventMonitor extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['monit', 'monitor'],
       name: 'Monitor'
     })

@@ -5,7 +5,8 @@ module.exports = {
     addAdm: require('./addAdm'),
     rmAdm: require('./rmAdm'),
     monit: require('./monit')
-  }, override: {
+  },
+  override: {
     checkManager: true
   }
 }
