@@ -41,6 +41,14 @@ class Vote {
     this.update()
     return this.manager.db('votes').where({ id: this.id }).update({ isClosed: true })
   }
+
+  getDuplicates (user) {
+    const votes = []
+    const keys =  Object.keys(this.data)
+    const values = Object.values(this.data)
+    for (const i in keys) if (values[i].includes(user)) votes.push(keys[i])
+    return votes
+  }
 }
 
 const zf = (i) => i < 10 ? `0${i}` : i
