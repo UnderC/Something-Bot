@@ -1,13 +1,14 @@
 module.exports = {
   name: 'vote',
   commands: {
-    update: require('./refresh'),
+    update: require('./update'),
     addItem: require('./add'),
     createVote: require('./create'),
     setExpires: require('./setExpires'),
     setting: require('./setting'),
     view: require('./view')
-  }, override: {
+  },
+  override: {
     checkManager: true
   }
 }

@@ -44,7 +44,7 @@ class Vote {
 
   getDuplicates (user) {
     const votes = []
-    const keys =  Object.keys(this.data)
+    const keys = Object.keys(this.data)
     const values = Object.values(this.data)
     for (const i in keys) if (values[i].includes(user)) votes.push(keys[i])
     return votes
@@ -98,7 +98,7 @@ class VoteManager {
   update (vote, toPublic) {
     const content = vote.items.map(item => {
       const result = `[${vote.data[item.emoji] ? vote.data[item.emoji].length : 0}]`
-      return `${item.emoji} ${item.content}${toPublic ? ` ${result}`: ''}`
+      return `${item.emoji} ${item.content}${toPublic ? ` ${result}` : ''}`
     })
     const raw = new Date(vote.expires)
     const date = `${raw.getFullYear()}-${zf(raw.getMonth() + 1)}-${zf(raw.getDate())} ${zf(raw.getHours())}:${zf(raw.getMinutes())}:${zf(raw.getSeconds())}`

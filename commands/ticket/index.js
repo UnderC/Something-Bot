@@ -9,5 +9,6 @@ module.exports = {
     save: require('./save'),
     reOpen: require('./reOpen'),
     setParent: require('./setParent')
-  }, override: {}
+  },
+  override: {}
 }

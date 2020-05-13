@@ -20,11 +20,11 @@ module.exports = async (client, message) => {
   if (command) {
     console.log(message.args)
     if (
-      command.checkManager
-      && (
-          !message.member.roles.filter(r => message.guildInf.roles.includes(r)).length
-          && !message.member.permission.json.administrator
-        )
+      command.checkManager &&
+      (
+        !message.member.roles.filter(r => message.guildInf.roles.includes(r)).length &&
+        !message.member.permission.json.administrator
+      )
     ) {
       return message.channel.createMessage('명령을 수행하는 데 유저의 권한이 부족합니다.')
     } else if (command.reqTicket && !message.ticket) return message.channel.createMessage('유효하지 않은 티켓입니다.')

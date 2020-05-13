@@ -5,7 +5,7 @@ const trace = (target, message, event, index, a) => {
   if ((a.member ? a.member.id : a.author ? a.author.id : a.id) === target.id && target.enable) {
     message.channel.createMessage(`<@${target.id}>의 이벤트를 추적했습니다.`)
     if (index !== null) {
-      if (typeof message._client._events[event] === 'array') message._client._events[event].splice(index)
+      if (typeof message._client._events[event] === typeof []) message._client._events[event].splice(index)
       else delete message._client._events[event]
     } else delete message._client._events[event]
   }

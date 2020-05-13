@@ -3,7 +3,8 @@ const Model = require('../model')
 class VoteAdd extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['additem', 'itemadd'],
       name: 'addItem'
     })
@@ -20,10 +21,9 @@ class VoteAdd extends Model {
     else if (vote.flag === this.client.vote.errors.closed) return message.channel.createMessage('이미 종료된 투표입니다.')
     else if (vote.flag === this.client.vote.errors.noMessage) return message.channel.createMessage('투표 메시지를 찾을 수 없습니다.')
 
-    const items = vote.items || []
     const emoji = message.args[2]
-    items.push({ emoji, content: message.args.slice(3).join(' ') })
-    await this.db('votes').where({ id: vote.id, guild: message.guild.id }).update({ items: JSON.stringify(items) })
+    vote.items.push({ emoji, content: message.args.slice(3).join(' ') })
+    await this.db('votes').where({ id: vote.id, guild: message.guild.id }).update({ items: JSON.stringify(vote.items) })
 
     vote.update()
     vote.realMessage.addReaction(emoji.includes(':') ? emoji.replace('<a:', '').replace('<:', '').replace('>', '') : emoji)

@@ -33,7 +33,8 @@ const options = [
 class VoteSettings extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['setvote', 'voteset'],
       name: 'voteSettings'
     })
@@ -66,7 +67,7 @@ class VoteSettings extends Model {
         set[opt.name] = opt.type === 'boolean'
           ? booleans.indexOf(data)
           : (opt.type === 'number' ? Number(data) : message.args.slice(4).join(' '))
-        
+
         await this.db('votes').where({ id: vote.id }).update(set)
         vote.update()
         message.channel.createMessage(`**Key** "${key}"의 값을 "${value}"에서 "${data}"로 변경되었습니다.`)

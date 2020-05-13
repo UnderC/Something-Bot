@@ -3,7 +3,8 @@ const Model = require('../model')
 class VoteView extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['view', 'viewvote', 'voteview'],
       name: 'viewVote',
       checkManager: false

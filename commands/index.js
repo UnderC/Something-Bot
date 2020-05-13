@@ -13,7 +13,7 @@ const getCommands = (client, rawCommands) => {
 * alias | [${command.alias.join(', ')}]`)
     command.alias.forEach(alias => commands.set(alias, command))
   })
-  console.log(`=========================`)
+  console.log('=========================')
 
   return commands
 }

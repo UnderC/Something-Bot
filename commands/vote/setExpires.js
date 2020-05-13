@@ -3,7 +3,8 @@ const Model = require('../model')
 class VoteExpires extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['voteexpires', 'expiresvote'],
       name: 'setVoteExpires'
     })
@@ -16,7 +17,7 @@ class VoteExpires extends Model {
       if (message.args[2] !== '-1') return message.channel.createMessage('마감일은 `yyyy-mm-dd hh:mm:ss` 과 같은 형식으로 입력해 주세요.')
       else inf = true
     }
-    
+
     const vote = await this.client.vote.get(message.args[1], message.guild.id)
     if (vote.flag === this.client.vote.errors.int) return message.channel.createMessage('마감일을 수정할 투표의 id를 정수 타입으로 입력해 주세요.')
     else if (vote.flag === this.client.vote.errors.notExist) return message.channel.createMessage('존재하지 않는 투표입니다.')

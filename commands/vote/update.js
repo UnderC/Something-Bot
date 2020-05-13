@@ -3,7 +3,8 @@ const Model = require('../model')
 class VoteUpdate extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['updatevote'],
       name: 'voteUpdate'
     })

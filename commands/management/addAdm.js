@@ -3,7 +3,8 @@ const Model = require('../model')
 class TicketAddAdmin extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['addadmin', 'addadm'],
       name: 'SetParent'
     })

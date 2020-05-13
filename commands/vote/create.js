@@ -3,7 +3,8 @@ const Model = require('../model')
 class VoteCreate extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['createvote', 'votecreate'],
       name: 'createVote'
     })
@@ -20,7 +21,8 @@ class VoteCreate extends Model {
     const title = message.args.slice(2).join(' ')
     const voteMsg = await channel.createMessage({ embed: { title } })
     const result = await this.db('votes').insert({
-      title, guild: message.guild.id,
+      title,
+      guild: message.guild.id,
       channel: voteMsg.channel.id,
       message: voteMsg.id,
       data: '{}',
