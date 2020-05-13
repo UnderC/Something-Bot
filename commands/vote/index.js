@@ -4,7 +4,8 @@ module.exports = {
     addItem: require('./add'),
     createVote: require('./create'),
     setExpires: require('./setExpires'),
-    setting: require('./setting')
+    setting: require('./setting'),
+    view: require('./view')
   }, override: {
     checkManager: true
   }
