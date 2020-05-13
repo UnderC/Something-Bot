@@ -1,10 +1,10 @@
 module.exports = async (client, message, emoji, user) => {
   if (client.user.id === user) return
   const vote = await client.vote.getFromMessage(message.id)
-  console.log(vote)
   if (!vote || vote.flag || (vote.guild !== message.channel.guild.id) || vote.isClosed) return
   const dm = await client.getDMChannel(user)
-  const emojiID = `<${emoji.animated ? 'a:': ':'}${emoji.name}${emoji.id ? `:${emoji.id}`: ''}>`
+  const emojiID = `${emoji.name}`
+  if (emoji.id) emojiID = `<${emoji.animated ? 'a:': ':'}${emojiID}:${emoji.id}>`
 
   if (!vote.data[emojiID]) vote.data[emojiID] = []
   if (vote.data[emojiID].includes(user)) {

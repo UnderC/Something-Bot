@@ -34,7 +34,7 @@ class Category {
 
     Object.values(this.commands).forEach(command => {
       Object.keys(category.override).forEach(key => {
-        command[key] = category.override[key]
+        if (command[key] === undefined) command[key] = category.override[key]
       })
     })
   }

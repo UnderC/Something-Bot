@@ -27,8 +27,8 @@ class VoteExpires extends Model {
     if (isNaN(expires)) return message.channel.createMessage('마감일은 `yyyy-mm-dd hh:mm:ss` 과 같은 형식으로 입력해 주세요.')
 
     message.channel.createMessage(`[${vote.id}] \`${vote.title}\` 투표의 마감일을 \`${orignal}\` 로 설정했습니다.`)
-    vote.update()
     await this.db('votes').where({ id: vote.id }).update({ expires })
+    vote.update()
   }
 }
 

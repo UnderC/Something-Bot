@@ -65,7 +65,7 @@ class VoteSettings extends Model {
         const set = {}
         set[opt.name] = opt.type === 'boolean'
           ? booleans.indexOf(data)
-          : (opt.type === 'number' ? Number(data) : message.args[4])
+          : (opt.type === 'number' ? Number(data) : message.args.slice(4).join(' '))
         
         await this.db('votes').where({ id: vote.id }).update(set)
         vote.update()

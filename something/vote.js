@@ -43,6 +43,8 @@ class Vote {
   }
 }
 
+const zf = (i) => i < 10 ? `0${i}` : i
+
 class VoteManager {
   constructor (client, db) {
     this.client = client
@@ -90,7 +92,8 @@ class VoteManager {
       const result = `[${vote.data[item.emoji] ? vote.data[item.emoji].length : 0}]`
       return `${item.emoji} ${item.content}${toPublic ? ` ${result}`: ''}`
     })
-    const date = new Date(vote.expires).toISOString().replace('T', ' ').replace(/\..+/, '')
+    const raw = new Date(vote.expires)
+    const date = `${raw.getFullYear()}-${zf(raw.getMonth() + 1)}-${zf(raw.getDate())} ${zf(raw.getHours())}:${zf(raw.getMinutes())}:${zf(raw.getSeconds())}`
     const status = `이 투표는 ${vote.isClosed ? `${date}에 마감되었습니다.` : (vote.expires !== -1 ? `${date}에 마감됩니다.` : '마감되지 않습니다.')}`
     const description = `${vote.content ? `${vote.content}\n` : ''}${content.join('\n')}\n**${status}**`
     if (vote.isClosed && Object.keys(vote.realMessage.reactions)) vote.realMessage.removeReactions()
