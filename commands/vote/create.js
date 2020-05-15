@@ -5,7 +5,7 @@ class VoteCreate extends Model {
     super({
       client,
       db,
-      alias: ['createvote', 'votecreate'],
+      alias: ['createvote', 'votecreate', 'newvote', 'votenew'],
       name: 'createVote'
     })
   }

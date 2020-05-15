@@ -19,7 +19,7 @@ class VoteExpires extends Model {
     }
 
     const vote = await this.client.vote.get(message.args[1], message.guild.id)
-    if (vote.flag === this.client.vote.errors.int) return message.channel.createMessage('마감일을 수정할 투표의 id를 정수 타입으로 입력해 주세요.')
+    if (vote.flag === this.client.vote.errors.int) return message.channel.createMessage('투표의 id를 정수 타입으로 입력해 주세요.')
     else if (vote.flag === this.client.vote.errors.notExist) return message.channel.createMessage('존재하지 않는 투표입니다.')
     else if (vote.flag === this.client.vote.errors.closed) return message.channel.createMessage('이미 종료된 투표입니다.')
 

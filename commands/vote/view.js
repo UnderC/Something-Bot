@@ -5,17 +5,17 @@ class VoteView extends Model {
     super({
       client,
       db,
-      alias: ['view', 'viewvote', 'voteview'],
+      alias: ['vote', 'viewvote', 'voteview'],
       name: 'viewVote',
       checkManager: false
     })
   }
 
   async run (message) {
-    if (!message.args[1]) return message.channel.createMessage('확인할 투표의 id를 입력해주세요.')
+    if (!message.args[1]) return message.channel.createMessage('확인할 투표의 id를 입력해 주세요.')
 
     const vote = await this.client.vote.get(message.args[1], message.guild.id, true)
-    if (vote.flag === this.client.vote.errors.int) return message.channel.createMessage('확인할 투표의 id를 정수 타입으로 입력해 주세요.')
+    if (vote.flag === this.client.vote.errors.int) return message.channel.createMessage('투표의 id를 정수 타입으로 입력해 주세요.')
     else if (vote.flag === this.client.vote.errors.notExist) return message.channel.createMessage('존재하지 않는 투표입니다.')
 
     const votes = vote.getDuplicates(message.author.id)
