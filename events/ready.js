@@ -5,6 +5,7 @@ const something = require('../something')
 module.exports = (client) => {
   client.db = Knex(client.config.knex)
   client.vote = new something.Vote(client, client.db)
+  client.Event = something.Event
   client.cData = getCnC(client, client.config.categories)
 
   setInterval(async () => {
