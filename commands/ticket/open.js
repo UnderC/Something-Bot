@@ -4,7 +4,8 @@ const Model = require('../model')
 class TicketOpen extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['open', 'create', 'new'],
       name: 'Open'
     })

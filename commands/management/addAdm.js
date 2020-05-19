@@ -1,6 +1,6 @@
 const Model = require('../model')
 
-class TicketAddAdmin extends Model {
+class AddAdmin extends Model {
   constructor (client, db) {
     super({
       client,
@@ -19,4 +19,4 @@ class TicketAddAdmin extends Model {
   }
 }
 
-module.exports = TicketAddAdmin
+module.exports = AddAdmin

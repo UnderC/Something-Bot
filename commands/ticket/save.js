@@ -3,7 +3,8 @@ const Model = require('../model')
 class TicketSave extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['save'],
       name: 'Save',
       checkManager: true,

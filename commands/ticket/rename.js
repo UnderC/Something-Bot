@@ -3,7 +3,8 @@ const Model = require('../model')
 class TicketRename extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['rename', 'name', 'title'],
       name: 'Rename',
       reqTicket: true

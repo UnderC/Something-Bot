@@ -3,7 +3,8 @@ const Model = require('../model')
 class TicketSetParent extends Model {
   constructor (client, db) {
     super({
-      client, db,
+      client,
+      db,
       alias: ['parent', 'category', 'setparent'],
       name: 'SetParent'
     })
