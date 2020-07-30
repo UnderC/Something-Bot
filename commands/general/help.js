@@ -31,6 +31,15 @@ ${p}reopen (?desc) | 보존된 티켓을 다시 엽니다.
 ${p}close (?desc) | 해당 티켓을 삭제합니다.
 ${p}monit (user) (event) | 지정한 대상에서 일어나는 특정 이벤트를 추적합니다.
 \`\`\``)
+
+    dm.createMessage(`\`\`\`
+${p}createvote (channel) (name) | 지정한 채널에 투표를 생성합니다.
+${p}items (id) | 해당 투표에 투표가 가능한 항목을 모두 불러옵니다.
+${p}additem (id) (emoji) (value) | 해당 투표에 항목을 생성합니다.
+${p}voteexpires (id) (date) | 해당 투표에 만료 기한을 지정합니다.
+${p}setvote (id) set|view (column) (?value)
+${p}updatevote (id) | 해당 투표가 버그로 인해 업데이트가 안됐을 시 강제로 업데이트 합니다.
+\`\`\``)
   }
 }
 
