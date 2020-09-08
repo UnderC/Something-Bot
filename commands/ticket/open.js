@@ -37,6 +37,7 @@ class TicketOpen extends Model {
 
     const some = message.args.slice(1).join(' ')
     message.channel.createMessage(`<#${channel.id}> 채널이 생성되었습니다.`)
+    message.delete()
     channel.createMessage(`<@${message.member.id}>의 요청으로 티켓이 생성되었습니다.\n세부 사항 : ${some === '' ? '없음' : some}`)
     await this.db('tickets').insert(data)
   }

@@ -22,6 +22,7 @@ class Vote {
     this.isClosed = raw.isClosed
     this.isAdminOnly = raw.isAdminOnly
     this.allowDuplicates = raw.allowDuplicates
+    this.showCounts = raw.showCounts
     this.manager = manager
     this.realMessage = message
     this.flag = flag
@@ -48,6 +49,11 @@ class Vote {
     const values = Object.values(this.data)
     for (const i in keys) if (values[i].includes(user)) votes.push(keys[i])
     return votes
+  }
+
+  get count () {
+    const flat = Object.values(this.data).flat()
+    return flat.filter((item, i) => flat.indexOf(item) === i).length
   }
 }
 
@@ -100,12 +106,16 @@ class VoteManager {
       const result = `[${vote.data[item.emoji] ? vote.data[item.emoji].length : 0}]`
       return `${item.emoji} ${item.content}${toPublic ? ` ${result}` : ''}`
     })
+
     const raw = new Date(vote.expires)
     const date = `${raw.getFullYear()}-${zf(raw.getMonth() + 1)}-${zf(raw.getDate())} ${zf(raw.getHours())}:${zf(raw.getMinutes())}:${zf(raw.getSeconds())}`
-    const status = `이 투표는 ${vote.isClosed ? `${date}에 마감되었습니다.` : (vote.expires !== -1 ? `${date}에 마감됩니다.` : '마감되지 않습니다.')}`
+    const title = `${vote.title} ${vote.showCounts ? `[${vote.count}]` : ''}`
+
+    let status = '이 투표는 마감되지 않습니다.'
+    if (vote.expires > -1) status = `이 투표는 ${date}에 마감${vote.isClosed ? '되었습' : '됩'}니다.`
     const description = `${vote.content ? `${vote.content}\n` : ''}${content.join('\n')}\n**${status}**`
     if (vote.isClosed && Object.keys(vote.realMessage.reactions)) vote.realMessage.removeReactions()
-    return vote.realMessage.edit({ embed: { title: vote.title, description } })
+    return vote.realMessage.edit({ embed: { title, description } })
   }
 }
 

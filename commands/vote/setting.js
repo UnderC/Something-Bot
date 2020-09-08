@@ -26,6 +26,10 @@ const options = [
   }, {
     name: 'content',
     type: 'string'
+  }, {
+    name: 'showCounts',
+    type: 'boolean',
+    toggle: true
   }
 ]
 
